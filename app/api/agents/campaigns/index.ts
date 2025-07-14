@@ -383,58 +383,6 @@ Return JSON:
         return currentState;
       }.bind(this)
     };
-    
-    /* TODO: Re-enable LangGraph when types are resolved
-    const workflow = new StateGraph({
-      channels: {
-        campaign_id: { reducer: (state: any, action: any) => action },
-        restaurant_id: { reducer: (state: any, action: any) => action },
-        goal: { reducer: (state: any, action: any) => action },
-        current_step: { reducer: (state: any, action: any) => action },
-        steps_completed: { reducer: (state: any, action: any) => action },
-        steps_remaining: { reducer: (state: any, action: any) => action },
-        campaign_data: { reducer: (state: any, action: any) => action },
-        customer_analysis: { reducer: (state: any, action: any) => ({ ...state, ...action }) },
-        content_variants: { reducer: (state: any, action: any) => [...(state || []), ...action] },
-        execution_results: { reducer: (state: any, action: any) => ({ ...state, ...action }) },
-        memory_context: { reducer: (state: any, action: any) => action },
-        requires_approval: { reducer: (state: any, action: any) => action },
-        approval_status: { reducer: (state: any, action: any) => action },
-        next_actions: { reducer: (state: any, action: any) => action }
-      }
-    });
-
-    workflow.addNode("analyze_customers", this.analyzeCustomerBase.bind(this));
-    workflow.addNode("generate_content", this.generateCampaignContent.bind(this));
-    workflow.addNode("execute_campaign", this.executeCampaign.bind(this));
-    workflow.addNode("monitor_results", this.monitorCampaignResults.bind(this));
-
-    // Conditional routing based on state
-    workflow.addConditionalEdges(
-      "analyze_customers",
-      (state: CampaignState) => state.current_step,
-      {
-        "analysis_complete": "generate_content",
-        "analysis_failed": END
-      }
-    );
-
-    workflow.addConditionalEdges(
-      "generate_content", 
-      (state: CampaignState) => state.requires_approval ? "approval_required" : "execute_campaign",
-      {
-        "execute_campaign": "execute_campaign",
-        "approval_required": END
-      }
-    );
-
-    workflow.addEdge("execute_campaign", "monitor_results");
-    workflow.addEdge("monitor_results", END);
-
-    workflow.setEntryPoint("analyze_customers");
-
-    return workflow.compile();
-    */
   }
 
   async monitorCampaignResults(state: CampaignState): Promise<CampaignState> {
