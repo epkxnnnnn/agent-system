@@ -359,20 +359,20 @@ Return JSON:
   async createCampaignWorkflow() {
     const workflow = new StateGraph({
       channels: {
-        campaign_id: null,
-        restaurant_id: null,
-        goal: null,
-        current_step: null,
-        steps_completed: null,
-        steps_remaining: null,
-        campaign_data: null,
-        customer_analysis: null,
-        content_variants: null,
-        execution_results: null,
-        memory_context: null,
-        requires_approval: null,
-        approval_status: null,
-        next_actions: null
+        campaign_id: { reducer: (state: any, action: any) => action },
+        restaurant_id: { reducer: (state: any, action: any) => action },
+        goal: { reducer: (state: any, action: any) => action },
+        current_step: { reducer: (state: any, action: any) => action },
+        steps_completed: { reducer: (state: any, action: any) => action },
+        steps_remaining: { reducer: (state: any, action: any) => action },
+        campaign_data: { reducer: (state: any, action: any) => action },
+        customer_analysis: { reducer: (state: any, action: any) => ({ ...state, ...action }) },
+        content_variants: { reducer: (state: any, action: any) => [...(state || []), ...action] },
+        execution_results: { reducer: (state: any, action: any) => ({ ...state, ...action }) },
+        memory_context: { reducer: (state: any, action: any) => action },
+        requires_approval: { reducer: (state: any, action: any) => action },
+        approval_status: { reducer: (state: any, action: any) => action },
+        next_actions: { reducer: (state: any, action: any) => action }
       }
     });
 
