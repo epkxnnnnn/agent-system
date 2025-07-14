@@ -315,7 +315,7 @@ Return JSON:
         current_step: 'execution_failed',
         execution_results: {
           ...results,
-          errors: [...results.errors, error.message]
+          errors: [...results.errors, error instanceof Error ? error.message : String(error)]
         }
       };
     }
