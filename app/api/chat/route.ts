@@ -5,7 +5,7 @@ import { PromptTemplate } from "@langchain/core/prompts";
 import { HttpResponseOutputParser } from "langchain/output_parsers";
 import { agentOrchestrator, AgentRequest } from "@/lib/agentOrchestrator";
 
-export const runtime = "edge";
+export const runtime = "nodejs";
 
 const formatMessage = (message: VercelChatMessage) => {
   return `${message.role}: ${message.content}`;
