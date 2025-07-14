@@ -357,31 +357,32 @@ Return JSON:
 
   // Create simplified workflow for campaign execution (LangGraph temporarily disabled for deployment)
   async createCampaignWorkflow() {
+    const self = this;
     return {
       async execute(state: CampaignState) {
         // Sequential execution of campaign steps
         let currentState = state;
         
         // Step 1: Analyze customers
-        currentState = await this.analyzeCustomerBase(currentState);
+        currentState = await self.analyzeCustomerBase(currentState);
         if (currentState.current_step === 'analysis_failed') {
           return currentState;
         }
         
         // Step 2: Generate content
-        currentState = await this.generateCampaignContent(currentState);
+        currentState = await self.generateCampaignContent(currentState);
         if (currentState.requires_approval) {
           return { ...currentState, current_step: 'awaiting_approval' };
         }
         
         // Step 3: Execute campaign
-        currentState = await this.executeCampaign(currentState);
+        currentState = await self.executeCampaign(currentState);
         
         // Step 4: Monitor results
-        currentState = await this.monitorCampaignResults(currentState);
+        currentState = await self.monitorCampaignResults(currentState);
         
         return currentState;
-      }.bind(this)
+      }
     };
   }
 
