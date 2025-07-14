@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { StateGraph, END } from '@langchain/langgraph';
+// import { StateGraph, END } from '@langchain/langgraph';  // Temporarily disabled for deployment
 import { ChatOpenAI } from '@langchain/openai';
 import { executeQuery } from '@/lib/toolkits/postgres';
 import { sendEmail } from '@/lib/toolkits/sendgrid';
@@ -355,8 +355,36 @@ Return JSON:
       .replace(/\{visit_count\}/g, customer.visit_count || '0');
   }
 
-  // Create LangGraph workflow for campaign execution
+  // Create simplified workflow for campaign execution (LangGraph temporarily disabled for deployment)
   async createCampaignWorkflow() {
+    return {
+      async execute(state: CampaignState) {
+        // Sequential execution of campaign steps
+        let currentState = state;
+        
+        // Step 1: Analyze customers
+        currentState = await this.analyzeCustomerBase(currentState);
+        if (currentState.current_step === 'analysis_failed') {
+          return currentState;
+        }
+        
+        // Step 2: Generate content
+        currentState = await this.generateCampaignContent(currentState);
+        if (currentState.requires_approval) {
+          return { ...currentState, current_step: 'awaiting_approval' };
+        }
+        
+        // Step 3: Execute campaign
+        currentState = await this.executeCampaign(currentState);
+        
+        // Step 4: Monitor results
+        currentState = await this.monitorCampaignResults(currentState);
+        
+        return currentState;
+      }.bind(this)
+    };
+    
+    /* TODO: Re-enable LangGraph when types are resolved
     const workflow = new StateGraph({
       channels: {
         campaign_id: { reducer: (state: any, action: any) => action },
@@ -406,6 +434,7 @@ Return JSON:
     workflow.setEntryPoint("analyze_customers");
 
     return workflow.compile();
+    */
   }
 
   async monitorCampaignResults(state: CampaignState): Promise<CampaignState> {
