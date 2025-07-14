@@ -1,129 +1,338 @@
-# 🦜️🔗 LangChain + Next.js Starter Template
+# 🍽️ LangChain Restaurant AI Agents
 
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/langchain-ai/langchain-nextjs-template)
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Flangchain-ai%2Flangchain-nextjs-template)
 
-This template scaffolds a LangChain.js + Next.js starter app. It showcases how to use and combine LangChain modules for several
-use cases. Specifically:
+A sophisticated multi-agent restaurant management system built with LangChain.js, Next.js, and agent-gpt inspired orchestration patterns. This application showcases advanced AI capabilities including persistent memory, task decomposition, goal-driven planning, and intelligent agent routing.
 
-- [Simple chat](/app/api/chat/route.ts)
-- [Returning structured output from an LLM call](/app/api/chat/structured_output/route.ts)
-- [Answering complex, multi-step questions with agents](/app/api/chat/agents/route.ts)
-- [Retrieval augmented generation (RAG) with a chain and a vector store](/app/api/chat/retrieval/route.ts)
-- [Retrieval augmented generation (RAG) with an agent and a vector store](/app/api/chat/retrieval_agents/route.ts)
+## 🌟 Features
 
-Most of them use Vercel's [AI SDK](https://github.com/vercel-labs/ai) to stream tokens to the client and display the incoming messages.
+### Multi-Agent Architecture
+- **Intelligent Agent Orchestrator** - Routes requests and coordinates between specialized agents
+- **CRM Agent** - Customer relationship management and segmentation
+- **Campaign Agent** - Marketing campaign planning and execution with LangGraph workflows
+- **Voice Agent** - Twilio-powered voice and SMS interactions
+- **Restaurant Agent** - Menu management, orders, and operational tasks
+- **Tools Agent** - Database operations and external integrations
 
-The agents use [LangGraph.js](https://langchain-ai.github.io/langgraphjs/), LangChain's framework for building agentic workflows. They use preconfigured helper functions to minimize boilerplate, but you can replace them with custom graphs as desired.
+### Agent-GPT Style Intelligence
+- **Persistent Memory System** - Session-based conversation memory with facts, preferences, and context
+- **Task Decomposition** - Complex goals broken into manageable sub-tasks
+- **Goal-Driven Planning** - Autonomous planning and execution of multi-step workflows
+- **Confidence Scoring** - Intelligent routing based on agent confidence levels
+- **Memory Extraction** - Automatic extraction of customer facts and preferences from conversations
 
-https://github.com/user-attachments/assets/e389e4e4-4fb9-4223-a4c2-dc002c8f20d3
-
-It's free-tier friendly too! Check out the [bundle size stats below](#-bundle-size).
-
-You can check out a hosted version of this repo here: https://langchain-nextjs-template.vercel.app/
+### Advanced Capabilities
+- **LangGraph Workflows** - Complex multi-step campaign orchestration
+- **Streaming Chat Interface** - Real-time responses with Vercel AI SDK
+- **Memory Analytics Dashboard** - Monitor agent performance and memory systems
+- **Database Integration** - PostgreSQL with connection pooling
+- **Communication Tools** - Twilio (voice/SMS) and Resend (email) integration
 
 ## 🚀 Getting Started
 
-First, clone this repo and download it locally.
+### Prerequisites
+- Node.js 18+
+- PostgreSQL database
+- OpenAI API key
+- Twilio account (for voice/SMS features)
+- Resend account (for email features)
 
-Next, you'll need to set up environment variables in your repo's `.env.local` file. Copy the `.env.example` file to `.env.local`.
-To start with the basic examples, you'll just need to add your OpenAI API key.
+### Installation
 
-Because this app is made to run in serverless Edge functions, make sure you've set the `LANGCHAIN_CALLBACKS_BACKGROUND` environment variable to `false` to ensure tracing finishes if you are using [LangSmith tracing](https://docs.smith.langchain.com/).
-
-Next, install the required packages using your preferred package manager (e.g. `yarn`).
-
-Now you're ready to run the development server:
-
+1. Clone the repository:
 ```bash
-yarn dev
+git clone <your-repo-url>
+cd langchain-restaurant-agents
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result! Ask the bot something and you'll see a streamed response:
-
-![A streaming conversation between the user and the AI](/public/images/chat-conversation.png)
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-Backend logic lives in `app/api/chat/route.ts`. From here, you can change the prompt and model, or add other modules and logic.
-
-## 🧱 Structured Output
-
-The second example shows how to have a model return output according to a specific schema using OpenAI Functions.
-Click the `Structured Output` link in the navbar to try it out:
-
-![A streaming conversation between the user and an AI agent](/public/images/structured-output-conversation.png)
-
-The chain in this example uses a [popular library called Zod](https://zod.dev) to construct a schema, then formats it in the way OpenAI expects.
-It then passes that schema as a function into OpenAI and passes a `function_call` parameter to force OpenAI to return arguments in the specified format.
-
-For more details, [check out this documentation page](https://js.langchain.com/docs/how_to/structured_output).
-
-## 🦜 Agents
-
-To try out the agent example, you'll need to give the agent access to the internet by populating the `SERPAPI_API_KEY` in `.env.local`.
-Head over to [the SERP API website](https://serpapi.com/) and get an API key if you don't already have one.
-
-You can then click the `Agent` example and try asking it more complex questions:
-
-![A streaming conversation between the user and an AI agent](/public/images/agent-conversation.png)
-
-This example uses a [prebuilt LangGraph agent](https://langchain-ai.github.io/langgraphjs/tutorials/quickstart/), but you can customize your own as well.
-
-## 🐶 Retrieval
-
-The retrieval examples both use Supabase as a vector store. However, you can swap in
-[another supported vector store](https://js.langchain.com/docs/integrations/vectorstores) if preferred by changing
-the code under `app/api/retrieval/ingest/route.ts`, `app/api/chat/retrieval/route.ts`, and `app/api/chat/retrieval_agents/route.ts`.
-
-For Supabase, follow [these instructions](https://js.langchain.com/docs/integrations/vectorstores/supabase) to set up your
-database, then get your database URL and private key and paste them into `.env.local`.
-
-You can then switch to the `Retrieval` and `Retrieval Agent` examples. The default document text is pulled from the LangChain.js retrieval
-use case docs, but you can change them to whatever text you'd like.
-
-For a given text, you'll only need to press `Upload` once. Pressing it again will re-ingest the docs, resulting in duplicates.
-You can clear your Supabase vector store by navigating to the console and running `DELETE FROM documents;`.
-
-After splitting, embedding, and uploading some text, you're ready to ask questions!
-
-For more info on retrieval chains, [see this page](https://js.langchain.com/docs/tutorials/rag).
-The specific variant of the conversational retrieval chain used here is composed using LangChain Expression Language, which you can
-[read more about here](https://js.langchain.com/docs/how_to/qa_sources/). This chain example will also return cited sources
-via header in addition to the streaming response.
-
-For more info on retrieval agents, [see this page](https://langchain-ai.github.io/langgraphjs/tutorials/rag/langgraph_agentic_rag/).
-
-## 📦 Bundle size
-
-The bundle size for LangChain itself is quite small. After compression and chunk splitting, for the RAG use case LangChain uses 37.32 KB of code space (as of [@langchain/core 0.1.15](https://npmjs.com/package/@langchain/core)), which is less than 4% of the total Vercel free tier edge function alottment of 1 MB:
-
-![](/public/images/bundle-size.png)
-
-This package has [@next/bundle-analyzer](https://www.npmjs.com/package/@next/bundle-analyzer) set up by default - you can explore the bundle size interactively by running:
-
+2. Install dependencies:
 ```bash
-$ ANALYZE=true yarn build
+pnpm install
 ```
+
+3. Set up environment variables by copying `.env.example` to `.env.local`:
+```bash
+cp .env.example .env.local
+```
+
+4. Configure your environment variables:
+```env
+# OpenAI
+OPENAI_API_KEY=your_openai_api_key
+
+# Database
+DATABASE_URL=postgresql://user:password@localhost:5432/restaurant_db
+
+# Twilio (for voice/SMS)
+TWILIO_ACCOUNT_SID=your_twilio_account_sid
+TWILIO_AUTH_TOKEN=your_twilio_auth_token
+TWILIO_PHONE_NUMBER=your_twilio_phone_number
+
+# Resend (for email)
+RESEND_API_KEY=your_resend_api_key
+
+# LangSmith (optional)
+LANGCHAIN_CALLBACKS_BACKGROUND=false
+LANGCHAIN_TRACING_V2=true
+LANGCHAIN_API_KEY=your_langsmith_api_key
+```
+
+5. Set up the database schema:
+```sql
+-- Core tables for restaurant operations
+CREATE TABLE restaurants (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  address TEXT,
+  phone VARCHAR(20),
+  email VARCHAR(255),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE customers (
+  id SERIAL PRIMARY KEY,
+  restaurant_id INTEGER REFERENCES restaurants(id),
+  name VARCHAR(255),
+  email VARCHAR(255),
+  phone VARCHAR(20),
+  preferences JSONB,
+  segment VARCHAR(50),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Agent memory system
+CREATE TABLE agent_memory (
+  id SERIAL PRIMARY KEY,
+  session_id VARCHAR(255) UNIQUE NOT NULL,
+  conversation_history JSONB DEFAULT '[]',
+  facts JSONB DEFAULT '{}',
+  preferences JSONB DEFAULT '{}',
+  context JSONB DEFAULT '{}',
+  goals JSONB DEFAULT '[]',
+  tasks JSONB DEFAULT '{}',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Conversation logging
+CREATE TABLE conversations (
+  id SERIAL PRIMARY KEY,
+  customer_id INTEGER REFERENCES customers(id),
+  agent_type VARCHAR(50),
+  input TEXT,
+  output TEXT,
+  confidence_score FLOAT,
+  memory_updates JSONB,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Campaign management
+CREATE TABLE campaigns (
+  id SERIAL PRIMARY KEY,
+  restaurant_id INTEGER REFERENCES restaurants(id),
+  name VARCHAR(255) NOT NULL,
+  description TEXT,
+  target_segment VARCHAR(50),
+  status VARCHAR(20) DEFAULT 'draft',
+  content JSONB,
+  metrics JSONB DEFAULT '{}',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+6. Run the development server:
+```bash
+pnpm dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) to see the application.
+
+## 🏗️ Architecture
+
+### Agent Orchestrator (`/lib/agentOrchestrator.ts`)
+The central hub that routes requests between specialized agents using agent-gpt patterns:
+
+```typescript
+export interface AgentMemory {
+  session_id: string;
+  conversation_history: Array<{ role: 'user' | 'assistant'; content: string; timestamp: Date }>;
+  facts: Map<string, { value: any; confidence: number; source: string; timestamp: Date }>;
+  preferences: Map<string, { value: any; confidence: number; timestamp: Date }>;
+  context: Map<string, any>;
+  goals: Array<{ description: string; status: 'active' | 'completed' | 'abandoned'; priority: number }>;
+  tasks: Map<string, Task>;
+}
+```
+
+### Campaign Orchestration (`/app/api/agents/campaigns/index.ts`)
+Advanced LangGraph-based campaign workflows:
+
+```typescript
+// Multi-step campaign planning with AI-powered content generation
+const campaignWorkflow = new StateGraph({
+  channels: {
+    goal: { reducer: (state, action) => action },
+    customerAnalysis: { reducer: (state, action) => ({ ...state, ...action }) },
+    contentVariants: { reducer: (state, action) => [...(state || []), ...action] },
+    executionPlan: { reducer: (state, action) => action },
+    results: { reducer: (state, action) => ({ ...state, ...action }) }
+  }
+});
+```
+
+### Memory-Aware Chat (`/app/api/chat/route.ts`)
+Streaming chat with persistent memory and agent coordination:
+
+```typescript
+// Enhanced chat with memory context and agent routing
+const agentResponse = await agentOrchestrator.processRequest({
+  input: message,
+  session_id: sessionId,
+  memory_context: memoryContext,
+  agent_preferences: agentPreferences
+});
+```
+
+## 🎯 Usage Examples
+
+### Simple Restaurant Query
+```
+User: "What's on the menu today?"
+AI: "Let me check our current menu for you..." [Routes to Restaurant Agent]
+```
+
+### Complex Multi-Step Campaign
+```
+User: "Create a marketing campaign to increase lunch sales for busy professionals"
+
+AI Planning:
+1. Analyze customer segments for professional demographics
+2. Generate targeted content for lunch promotions  
+3. Create multi-channel campaign (email, SMS, social)
+4. Set up automated follow-up sequences
+5. Monitor and optimize performance
+
+AI: "I'll create a comprehensive lunch campaign for professionals. Let me start by analyzing your customer base..."
+```
+
+### Memory-Aware Conversation
+```
+User: "I'm vegetarian and prefer spicy food"
+AI: [Stores preference] "I've noted your vegetarian preference and love for spicy food."
+
+Later conversation:
+User: "What would you recommend for dinner?"
+AI: "Based on your vegetarian preference and love for spicy food, I'd recommend our Spicy Thai Curry with tofu..."
+```
+
+## 🔧 Advanced Configuration
+
+### Custom Agent Development
+Create new specialized agents by extending the base agent interface:
+
+```typescript
+export interface Agent {
+  name: string;
+  confidence: number;
+  canHandle(input: string): boolean;
+  process(input: AgentRequest): Promise<AgentResponse>;
+}
+```
+
+### Memory System Customization
+Configure memory extraction patterns and confidence thresholds:
+
+```typescript
+const memoryConfig = {
+  factExtractionThreshold: 0.8,
+  preferenceConfidenceMin: 0.7,
+  contextRetentionDays: 30,
+  maxConversationHistory: 100
+};
+```
+
+### LangGraph Workflow Extensions
+Build custom multi-step workflows using LangGraph:
+
+```typescript
+const customWorkflow = new StateGraph({
+  channels: { /* define state channels */ }
+})
+.addNode("analyze", analyzeStep)
+.addNode("plan", planStep) 
+.addNode("execute", executeStep)
+.addEdge("analyze", "plan")
+.addEdge("plan", "execute");
+```
+
+## 📊 Monitoring & Analytics
+
+The dashboard at `/dashboard` provides insights into:
+- Agent performance metrics
+- Memory system analytics
+- Conversation success rates
+- Campaign effectiveness
+- Customer engagement patterns
+
+## 🧪 Testing
+
+Run the test suite:
+```bash
+pnpm test
+```
+
+Type checking:
+```bash
+pnpm typecheck
+```
+
+Linting:
+```bash
+pnpm lint
+```
+
+## 🚀 Deployment
+
+### Vercel Deployment
+1. Connect your repository to Vercel
+2. Configure environment variables in Vercel dashboard
+3. Deploy with automatic builds on push
+
+### Environment Setup
+Ensure all required environment variables are configured:
+- Database connection for persistent memory
+- OpenAI API key for AI capabilities
+- Twilio credentials for voice/SMS
+- Resend API key for email campaigns
+
+## 🔒 Security
+
+- No API keys or secrets are logged or exposed
+- Customer data is encrypted and access-controlled
+- Memory system includes data retention policies
+- All database queries use parameterized statements
 
 ## 📚 Learn More
 
-The example chains in the `app/api/chat/route.ts` and `app/api/chat/retrieval/route.ts` files use
-[LangChain Expression Language](https://js.langchain.com/docs/concepts#langchain-expression-language) to
-compose different LangChain.js modules together. You can integrate other retrievers, agents, preconfigured chains, and more too, though keep in mind
-`HttpResponseOutputParser` is meant to be used directly with model output.
+- [LangChain.js Documentation](https://js.langchain.com/docs/)
+- [LangGraph Workflows](https://langchain-ai.github.io/langgraphjs/)
+- [Vercel AI SDK](https://github.com/vercel-labs/ai)
+- [Agent-GPT Architecture](https://github.com/reworkd/AgentGPT)
 
-To learn more about what you can do with LangChain.js, check out the docs here:
+## 🤝 Contributing
 
-- https://js.langchain.com/docs/
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests for new functionality
+5. Submit a pull request
 
-## ▲ Deploy on Vercel
+## 📄 License
 
-When ready, you can deploy your app on the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme).
+This project is licensed under the MIT License - see the LICENSE file for details.
 
-Check out the [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## 🙏 Acknowledgments
 
-## Thank You!
-
-Thanks for reading! If you have any questions or comments, reach out to us on Twitter
-[@LangChainAI](https://twitter.com/langchainai), or [click here to join our Discord server](https://discord.gg/langchain).
+Built on the excellent [LangChain Next.js Template](https://github.com/langchain-ai/langchain-nextjs-template) with inspiration from [Agent-GPT](https://github.com/reworkd/AgentGPT) orchestration patterns.

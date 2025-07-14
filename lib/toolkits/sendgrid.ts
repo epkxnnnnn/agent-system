@@ -1,0 +1,65 @@
+import { Resend } from 'resend';
+
+const resend = new Resend(process.env.RESEND_API_KEY);
+
+export interface EmailMessage {
+  to: string | string[];
+  subject: string;
+  html?: string;
+  text?: string;
+  from?: string;
+}
+
+export async function sendEmail({
+  to,
+  subject,
+  html,
+  text,
+  from
+}: EmailMessage) {
+  try {
+    const response = await resend.emails.send({
+      from: from || process.env.FROM_EMAIL || 'noreply@lullabar.com',
+      to: Array.isArray(to) ? to : [to],
+      subject,
+      html,
+      text
+    });
+    
+    return {
+      success: true,
+      messageId: response.data?.id,
+      error: response.error
+    };
+  } catch (error: any) {
+    console.error('Email send error:', error);
+    return {
+      success: false,
+      error: error.message,
+    };
+  }
+}
+
+export async function sendBulkEmail(messages: EmailMessage[]) {
+  try {
+    const results = await Promise.allSettled(
+      messages.map(msg => sendEmail(msg))
+    );
+    
+    const successful = results.filter(r => r.status === 'fulfilled').length;
+    const failed = results.filter(r => r.status === 'rejected').length;
+    
+    return {
+      success: true,
+      sent: successful,
+      failed,
+      results
+    };
+  } catch (error: any) {
+    console.error('Bulk email error:', error);
+    return {
+      success: false,
+      error: error.message,
+    };
+  }
+}
