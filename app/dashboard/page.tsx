@@ -5,19 +5,20 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { 
-  Users, 
-  MessageSquare, 
-  Mail, 
-  Phone, 
-  Calendar, 
-  BarChart3,
-  Brain,
-  Activity,
-  Clock,
-  TrendingUp,
-  Settings
-} from 'lucide-react';
+// Temporarily simplified to debug issues
+// import { 
+//   Users, 
+//   MessageSquare, 
+//   Mail, 
+//   Phone, 
+//   Calendar, 
+//   BarChart3,
+//   Brain,
+//   Activity,
+//   Clock,
+//   TrendingUp,
+//   Settings
+// } from 'lucide-react';
 
 interface DashboardStats {
   activeAgents: number;
@@ -134,13 +135,13 @@ export default function Dashboard() {
 
   const getAgentIcon = (type: string) => {
     switch (type) {
-      case 'orchestrator': return <Brain className="w-5 h-5" />;
-      case 'crm': return <Users className="w-5 h-5" />;
-      case 'campaigns': return <Mail className="w-5 h-5" />;
-      case 'voice': return <Phone className="w-5 h-5" />;
-      case 'postgres': return <Calendar className="w-5 h-5" />;
-      case 'tools': return <Settings className="w-5 h-5" />;
-      default: return <MessageSquare className="w-5 h-5" />;
+      case 'orchestrator': return <span className="text-lg">🧠</span>;
+      case 'crm': return <span className="text-lg">👥</span>;
+      case 'campaigns': return <span className="text-lg">📧</span>;
+      case 'voice': return <span className="text-lg">📞</span>;
+      case 'postgres': return <span className="text-lg">📅</span>;
+      case 'tools': return <span className="text-lg">⚙️</span>;
+      default: return <span className="text-lg">💬</span>;
     }
   };
 
@@ -173,7 +174,7 @@ export default function Dashboard() {
           <Card>
             <CardContent className="p-4">
               <div className="flex items-center">
-                <Brain className="w-8 h-8 text-purple-600" />
+                <span className="text-2xl">🧠</span>
                 <div className="ml-3">
                   <p className="text-sm font-medium text-gray-600">Active Agents</p>
                   <p className="text-2xl font-bold text-gray-900">{stats.activeAgents}</p>
@@ -185,7 +186,7 @@ export default function Dashboard() {
           <Card>
             <CardContent className="p-4">
               <div className="flex items-center">
-                <MessageSquare className="w-8 h-8 text-blue-600" />
+                <span className="text-2xl">💬</span>
                 <div className="ml-3">
                   <p className="text-sm font-medium text-gray-600">Sessions</p>
                   <p className="text-2xl font-bold text-gray-900">{stats.totalSessions}</p>
@@ -197,7 +198,7 @@ export default function Dashboard() {
           <Card>
             <CardContent className="p-4">
               <div className="flex items-center">
-                <Activity className="w-8 h-8 text-green-600" />
+                <span className="text-2xl">⚡</span>
                 <div className="ml-3">
                   <p className="text-sm font-medium text-gray-600">Tasks Running</p>
                   <p className="text-2xl font-bold text-gray-900">{stats.tasksInProgress}</p>
@@ -209,7 +210,7 @@ export default function Dashboard() {
           <Card>
             <CardContent className="p-4">
               <div className="flex items-center">
-                <BarChart3 className="w-8 h-8 text-orange-600" />
+                <span className="text-2xl">📊</span>
                 <div className="ml-3">
                   <p className="text-sm font-medium text-gray-600">Memory Entries</p>
                   <p className="text-2xl font-bold text-gray-900">{stats.memoryEntries}</p>
@@ -221,7 +222,7 @@ export default function Dashboard() {
           <Card>
             <CardContent className="p-4">
               <div className="flex items-center">
-                <Mail className="w-8 h-8 text-red-600" />
+                <span className="text-2xl">📧</span>
                 <div className="ml-3">
                   <p className="text-sm font-medium text-gray-600">Campaigns</p>
                   <p className="text-2xl font-bold text-gray-900">{stats.campaignsActive}</p>
@@ -233,7 +234,7 @@ export default function Dashboard() {
           <Card>
             <CardContent className="p-4">
               <div className="flex items-center">
-                <Clock className="w-8 h-8 text-indigo-600" />
+                <span className="text-2xl">⏱️</span>
                 <div className="ml-3">
                   <p className="text-sm font-medium text-gray-600">Avg Response</p>
                   <p className="text-2xl font-bold text-gray-900">{stats.avgResponseTime}s</p>
@@ -471,7 +472,7 @@ export default function Dashboard() {
                     <div className="flex items-center justify-between">
                       <span className="font-medium">Response Time</span>
                       <div className="flex items-center gap-2">
-                        <TrendingUp className="w-4 h-4 text-green-500" />
+                        <span className="text-green-500">📈</span>
                         <span className="text-green-600 font-semibold">Excellent</span>
                       </div>
                     </div>
@@ -508,20 +509,16 @@ export default function Dashboard() {
           <CardContent>
             <div className="flex flex-wrap gap-3">
               <Button variant="outline" size="sm">
-                <MessageSquare className="w-4 h-4 mr-2" />
-                Start New Chat Session
+                💬 Start New Chat Session
               </Button>
               <Button variant="outline" size="sm">
-                <Settings className="w-4 h-4 mr-2" />
-                Configure Agents
+                ⚙️ Configure Agents
               </Button>
               <Button variant="outline" size="sm">
-                <BarChart3 className="w-4 h-4 mr-2" />
-                Export Analytics
+                📊 Export Analytics
               </Button>
               <Button variant="outline" size="sm">
-                <Brain className="w-4 h-4 mr-2" />
-                Clear Memory Cache
+                🧠 Clear Memory Cache
               </Button>
             </div>
           </CardContent>
