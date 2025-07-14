@@ -469,7 +469,7 @@ export async function createAdvancedCampaign(campaignData: {
 
     // Execute workflow
     const workflow = await campaignOrchestrator.createCampaignWorkflow();
-    const result = await workflow.invoke(initialState);
+    const result = await workflow.execute(initialState);
 
     return { success: true, campaign: result };
   } catch (error: any) {
