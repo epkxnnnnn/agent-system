@@ -45,7 +45,7 @@ export default function Home() {
           👇
           <span className="ml-2">
             Try asking: <code>Create a marketing campaign for loyal customers</code> or{" "}
-            <code>Show me today's reservations</code> or{" "}
+            <code>Show me today&apos;s reservations</code> or{" "}
             <code>Analyze customer segments and suggest promotions</code>
           </span>
         </li>

@@ -15,9 +15,7 @@ const nextConfig = {
     
     return config;
   },
-  experimental: {
-    serverComponentsExternalPackages: ['pg', 'pg-pool'],
-  },
+  serverExternalPackages: ['pg', 'pg-pool'],
 };
 
 // Bundle analyzer configuration
