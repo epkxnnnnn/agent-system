@@ -1,8 +1,9 @@
 import { Pool, PoolClient } from 'pg';
+import { env } from '@/lib/config/env';
 
 const pool = new Pool({
-  connectionString: process.env.POSTGRES_URL,
-  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
+  connectionString: env.database.url,
+  ssl: env.app.isProduction ? { rejectUnauthorized: false } : false,
   max: 20,
   idleTimeoutMillis: 30000,
   connectionTimeoutMillis: 2000,

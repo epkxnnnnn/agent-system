@@ -1,8 +1,9 @@
 import twilio from 'twilio';
+import { env } from '@/lib/config/env';
 
 const client = twilio(
-  process.env.TWILIO_ACCOUNT_SID!,
-  process.env.TWILIO_AUTH_TOKEN!
+  env.twilio.accountSid,
+  env.twilio.authToken
 );
 
 export interface SMSMessage {
@@ -21,7 +22,7 @@ export async function sendSMS({ to, body, from }: SMSMessage) {
   try {
     const message = await client.messages.create({
       body,
-      from: from || process.env.TWILIO_PHONE_NUMBER!,
+      from: from || env.twilio.phoneNumber,
       to,
     });
     
@@ -46,7 +47,7 @@ export async function makeVoiceCall({ to, url, from }: VoiceCall) {
     const call = await client.calls.create({
       url,
       to,
-      from: from || process.env.TWILIO_PHONE_NUMBER!,
+      from: from || env.twilio.phoneNumber,
     });
     
     return {

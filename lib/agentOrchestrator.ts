@@ -1,5 +1,6 @@
 import { ChatOpenAI } from '@langchain/openai';
 import { executeQuery, logConversation } from './toolkits/postgres';
+import { env } from './config/env';
 
 export interface AgentRequest {
   message: string;
@@ -68,7 +69,7 @@ export class AgentOrchestrator {
     this.llm = new ChatOpenAI({
       modelName: 'gpt-4',
       temperature: 0.3,
-      openAIApiKey: process.env.OPENAI_API_KEY,
+      openAIApiKey: env.openai.apiKey,
     });
   }
 

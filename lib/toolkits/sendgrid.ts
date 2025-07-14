@@ -1,6 +1,7 @@
 import { Resend } from 'resend';
+import { env } from '@/lib/config/env';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = new Resend(env.email.resendApiKey);
 
 export interface EmailMessage {
   to: string | string[];
@@ -19,7 +20,7 @@ export async function sendEmail({
 }: EmailMessage) {
   try {
     const response = await resend.emails.send({
-      from: from || process.env.FROM_EMAIL || 'noreply@lullabar.com',
+      from: from || env.email.fromEmail,
       to: Array.isArray(to) ? to : [to],
       subject,
       html,
