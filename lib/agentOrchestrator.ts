@@ -373,7 +373,7 @@ Return JSON:
         response: 'I understand you have a complex request. Let me break it down and handle it step by step.',
         agent_used: 'orchestrator',
         confidence: 0.5,
-        data: { error: error.message }
+        data: { error: error instanceof Error ? error.message : String(error) }
       };
     }
   }
@@ -505,7 +505,7 @@ Return JSON:
         agent_used: agent,
         confidence: 0.1,
         needs_human_handoff: true,
-        data: { error: error.message }
+        data: { error: error instanceof Error ? error.message : String(error) }
       };
     }
   }
