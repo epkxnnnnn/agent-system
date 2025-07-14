@@ -70,6 +70,11 @@ export class CampaignOrchestrator {
     });
   }
 
+  // Public method to get campaign status
+  getCampaignStatus(campaignId: string): CampaignState | null {
+    return this.activeWorkflows.get(campaignId) || null;
+  }
+
   // Agent-GPT inspired goal decomposition for campaigns
   async planCampaignWorkflow(goal: string, context: any): Promise<CampaignTask[]> {
     const planningPrompt = `You are a campaign planning AI. Break down this marketing goal into specific, executable tasks.
@@ -487,7 +492,7 @@ export async function POST(request: NextRequest) {
         return NextResponse.json(await createAdvancedCampaign(data));
       
       case 'get_campaign_status':
-        const campaign = campaignOrchestrator.activeWorkflows.get(data.campaign_id);
+        const campaign = campaignOrchestrator.getCampaignStatus(data.campaign_id);
         return NextResponse.json({ 
           success: true, 
           campaign: campaign || null 
