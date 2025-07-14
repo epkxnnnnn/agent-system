@@ -19,13 +19,22 @@ export async function sendEmail({
   from
 }: EmailMessage) {
   try {
-    const response = await resend.emails.send({
+    const emailData: any = {
       from: from || env.email.fromEmail,
       to: Array.isArray(to) ? to : [to],
       subject,
-      html,
-      text
-    });
+    };
+
+    // Add content based on what's provided
+    if (html) {
+      emailData.html = html;
+    } else if (text) {
+      emailData.text = text;
+    } else {
+      emailData.text = subject; // Fallback to subject as text
+    }
+
+    const response = await resend.emails.send(emailData);
     
     return {
       success: true,
